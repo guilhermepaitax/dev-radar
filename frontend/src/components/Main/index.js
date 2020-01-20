@@ -1,9 +1,15 @@
 import React from 'react';
 
-// import { Container } from './styles';
+import { Container } from './styles';
 
 export default function Main() {
   return (
-    <div />
+    <Container>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </Container>
   );
 }
