@@ -2,43 +2,23 @@ import React from 'react';
 
 import { Container, UserInfo } from './styles';
 
-export default function Main() {
+export default function Main({ devs }) {
   return (
     <Container>
       <ul>
-        <li>
-          <header>
-            <img src="https://avatars2.githubusercontent.com/u/26007043?s=460&v=4" alt="Guilhereme Paitax"/>
-            <UserInfo>
-              <strong>Guilherme Paitax</strong>
-              <span>ReactJs, React Native</span>
-            </UserInfo>
-          </header>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium quidem quisquam possimus magni quia unde numquam.</p>
-          <a href="https://github.com/guilhermepaitax">Acessar perfil no Github</a>
-        </li>
-        <li>
-          <header>
-            <img src="https://avatars2.githubusercontent.com/u/26007043?s=460&v=4" alt="Guilhereme Paitax"/>
-            <UserInfo>
-              <strong>Guilherme Paitax</strong>
-              <span>ReactJs, React Native</span>
-            </UserInfo>
-          </header>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium quidem quisquam possimus magni quia unde numquam.</p>
-          <a href="https://github.com/guilhermepaitax">Acessar perfil no Github</a>
-        </li>
-        <li>
-          <header>
-            <img src="https://avatars2.githubusercontent.com/u/26007043?s=460&v=4" alt="Guilhereme Paitax"/>
-            <UserInfo>
-              <strong>Guilherme Paitax</strong>
-              <span>ReactJs, React Native</span>
-            </UserInfo>
-          </header>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium quidem quisquam possimus magni quia unde numquam.</p>
-          <a href="https://github.com/guilhermepaitax">Acessar perfil no Github</a>
-        </li>
+        {devs.map(dev => (
+          <li key={dev._id}>
+            <header>
+              <img src={dev.avatar_url} alt={dev.name}/>
+              <UserInfo>
+                <strong>{dev.name}</strong>
+                <span>{dev.techs.join(', ')}</span>
+              </UserInfo>
+            </header>
+            <p>{dev.bio}</p>
+            <a href={`https://github.com/${dev.github_username}`}>Acessar perfil no Github</a>
+          </li>
+        ))}
       </ul>
     </Container>
   );
