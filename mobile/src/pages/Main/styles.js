@@ -34,3 +34,28 @@ export const LoadButton = styled.TouchableOpacity`
   align-items: center;
   margin-left: 15px;
 `;
+
+export const Avatar = styled.Image`
+  width: 54px;
+  height: 54px;
+  border-radius: 4px;
+  border: 4px solid #fff;
+`;
+
+export const DevInfo = styled.View`
+  width: 260px;
+`;
+
+export const TextName = styled.Text`
+  font-weight: bold;
+  font-size: 16px;
+`;
+
+export const TextBio = styled.Text`
+  color: #666;
+  margin-top: 5px;
+`;
+
+export const TextTechs = styled.Text`
+  margin-top: 5px;
+`;

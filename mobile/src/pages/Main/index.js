@@ -1,12 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import { Marker, Callout } from 'react-native-maps';
 import { requestPermissionsAsync, getCurrentPositionAsync } from 'expo-location';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { Map, Container, SearchInput, LoadButton } from './styles';
+import { 
+  Map,
+  Container,
+  SearchInput, 
+  LoadButton, 
+  Avatar, 
+  DevInfo, 
+  TextName, 
+  TextBio, 
+  TextTechs
+} from './styles';
 
-export default function Main() {
+import api from '../../services/api';
+
+export default function Main({ navigation }) {
   const [currentRegion, setCurrentRegion] = useState(null);
   const [techs, setTechs] = useState('');
+  const [devs, setDevs] = useState([]);
 
   useEffect(() => {
     async function loadInitialPosition() {
@@ -31,6 +45,18 @@ export default function Main() {
     loadInitialPosition();
   }, []);
 
+  async function loadDevs() {
+    const { latitude, longitude } = currentRegion;
+
+    const response = await api.get('/search', {
+      latitude,
+      longitude,
+      techs,
+    });
+
+    setDevs(response.data);
+  }
+
   function handleRegionChanged(region) {
     setCurrentRegion(region);
   }
@@ -44,7 +70,28 @@ export default function Main() {
       <Map 
         onRegionChangeComplete={handleRegionChanged}
         initialRegion={currentRegion}
-      />
+      >
+        {devs.map(dev => (
+          <Marker 
+            key={dev._id}
+            coordinate={{
+              longitude: dev.location.coordinates[0],
+              latitude: dev.location.coordinates[1],
+            }}
+          >
+            <Avatar source={{ uri: dev.avatar_url }} />
+            <Callout onPress={() => {
+              navigation.navigate('Profile', { github_username: dev.github_username });
+            }}>
+              <DevInfo>
+                <TextName>{dev.name}</TextName>
+                <TextBio>{dev.bio}</TextBio>
+                <TextTechs>{dev.techs.join(', ')}</TextTechs>
+              </DevInfo>
+            </Callout>
+          </Marker>
+        ))}
+      </Map>
       <Container>
         <SearchInput
           placeholder="Buscar devs por techs..."
@@ -54,7 +101,7 @@ export default function Main() {
           value={techs}
           onChangeText={setTechs}
         />
-        <LoadButton>
+        <LoadButton onPress={loadDevs}>
           <MaterialIcons name="my-location" size={21} color="#fff" />
         </LoadButton>
       </Container>
