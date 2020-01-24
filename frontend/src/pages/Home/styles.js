@@ -7,4 +7,17 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+
+  @media(max-width: 1000px) {
+    flex-direction: column;
+
+    > div {
+      margin-left: 0;
+      margin-top: 30px;
+    }
+
+    > aside {
+      width: 100%;
+    }
+  }
 `;
